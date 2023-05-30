@@ -1,0 +1,40 @@
+[opening test1.sml]
+[opening 01.sml]
+val fact = fn : int -> int
+val myloop = fn : int -> int
+val myans = 13 : int
+val it = () : unit
+Assign00-01-test passed!
+val it = () : unit
+
+[opening test2.sml]
+[opening 02.sml]
+val isPrime_helper = fn : int * int -> bool
+val isPrime = fn : int -> bool
+val it = () : unit
+Assign00-02-test passed!
+val it = () : unit
+
+- use "test3.sml"; 
+[opening test3.sml]
+[opening 03.sml]
+val int2str = fn : int -> string
+val it = () : unit
+Assign00-03-test passed!
+val it = () : unit
+
+[opening test4.sml]
+[opening 04.sml]
+val str2int = fn : string -> int
+val it = () : unit
+Assign00-04-test passed!
+val it = () : unit
+
+- use "test5.sml"; 
+[opening test5.sml]
+[opening 05.sml]
+val myloop = fn : string * int -> string
+val stringrev = fn : string -> string
+val it = () : unit
+Assign00-05-test passed!
+val it = () : unit

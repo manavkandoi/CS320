@@ -9,9 +9,9 @@ fun
 fact(x: int): int =
 if x > 0 then x * fact(x-1) else 1
 *)
-val
-rec
-fact = fn(x: int) =>
+
+fun
+fact(x: int): int =
 if x > 0 then x * fact(x-1) else 1
 
 fun
@@ -21,7 +21,10 @@ myloop(x: int): int =
 (* ****** ****** *)
 
 val myans = myloop(0)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 31e210ca6c25465c8f1e71a4c49196e369f3bcd2
 (* ****** ****** *)
 
 (* end of [CS320-2023-Spring-assign00-01.sml] *)
