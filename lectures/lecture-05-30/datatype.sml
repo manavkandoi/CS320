@@ -39,4 +39,6 @@ end
 
 (* ****** ****** *)
 
+(*test*
+
 (* end of [lecture-05-30-datatype.sml] *)
