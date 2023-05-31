@@ -141,9 +141,37 @@ HX-2023-05-31:
 Please assume that cs is a list of 5 cards
 that are sorted according to their ranks.
 *)
+(*
 fun
 card5_fullhouse
-(cs: card list): bool = raise NotImplemented320
+(cs: card list): bool = 
+val c2 = list_head(list_tail(cs))
+val c3 = list_head(list_tail(list_tail(cs)))
+val c4 = list_head(list_tail(list_tail(list_tail(cs))))
+val c5 = list_head(list_tail(list_tail(list_tail(list_tail(cs)))))
+
+if (rank2int(card_rank(c1)) = rank2int(card_rank(c2)) = rank2int(card_rank(c3)))
+  then 
+    if (rank2int(card_rank(c4)) = rank2int(card_rank(c5)))
+      then true
+else
+  if (rank2int(card_rank(c1)) = rank2int(card_rank(c2)) )
+    then 
+      if (rank2int(card_rank(c3))= rank2int(card_rank(c4)) = rank2int(card_rank(c5)))
+        then true
+else false
+*)
+fun card5_fullhouse (cs: card list) : bool =
+    let
+        val [c1, c2, c3, c4, c5] = cs
+    in
+        if card_rank c1 = card_rank c2 andalso card_rank c2 = card_rank c3 andalso card_rank c4 = card_rank c5
+        then true
+        else if card_rank c1 = card_rank c2 andalso card_rank c3 = card_rank c4 andalso card_rank c4 = card_rank c5
+        then true
+        else false
+    end
+
 
 (* ****** ****** *)
 
