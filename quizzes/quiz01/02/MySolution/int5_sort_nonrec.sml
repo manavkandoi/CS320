@@ -63,7 +63,7 @@ in
 end
 
 (* ****** ****** *)
-*)
+
 val
 int3_sort_nr =
 fn(xs: int3): int3 => 
@@ -74,7 +74,7 @@ in
   
   if x3 < #1(x) then
   (x3,#1(x),#2(x))
-  else if x3>#2(x) then
+  else if x3 > (#2(x)) then
   (#1(x),#2(x),x3)
   else
   (#1(x),x3,#2(x))
@@ -92,9 +92,9 @@ in
   
   if x4 < #1(x) then
   (x4,#1(x),#2(x),#3(x))
-  else if x4>#3(x) then
+  else if x4 > (#3(x)) then
   (#1(x),#2(x),#3(x),x4)
-  else if x4<#2(x) then
+  else if x4 < (#2(x)) then
   (#1(x),x4,#2(x),#3(x))
   else
   (#1(x),#2(x),x4,#3(x))
@@ -103,19 +103,21 @@ end
 (* ****** ****** *)
 val int5_sort_nr =
 fn (xs: int5): int5 =>
-  let
+let
   val (x1,x2,x3,x4,x5) = xs 
-  val x = int3_sort_nr((x1,x2,x3))
+  val x = int4_sort_nr((x1,x2,x3,x4))
 in
   
-  if x5 < #1(x) then
+  if x5 < (#1(x)) then
   (x5,#1(x),#2(x),#3(x),#4(x))
-  else if x4>#3(x) then
+  else if x5 > (#4(x)) then
   (#1(x),#2(x),#3(x),#4(x),x5)
-  else if x4<#2(x) then
-  (#1(x),x4,#2(x),#3(x),#4(x))
+  else if x5 < (#2(x)) then
+  (#1(x),x5,#2(x),#3(x),#4(x))
+  else if x5 < (#3(x)) then
+  (#1(x),#2(x),x5,#3(x),#4(x))
   else
-  (#1(x),#2(x),x4,#3(x),#4(x))
+  (#1(x),#2(x),#3(x),x5,#4(x))
 end
   (* ****** ****** *)
 
