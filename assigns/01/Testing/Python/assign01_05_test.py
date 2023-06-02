@@ -1,10 +1,5 @@
 ####################################################
 import sys
-
-from assign01_05 import mylist_append
-from assign01_05 import mylist_reverse
-from assign01_05 import mylist_rappend
-from assign01_lib import *
 sys.path.append('./../../MySolution/Python')
 from assign01_05 import *
 ####################################################

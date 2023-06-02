@@ -1,5 +1,6 @@
 ####################################################
 import sys
+sys.setrecursionlimit(10000)
 sys.path.append('./../..')
 from assign01_lib import *
 ####################################################
@@ -14,19 +15,19 @@ print("[import ./../assign01_lib.py] is done!")
 ####################################################
 
 def mylist_append(x,y):
-    for i in y:
-        x.append(i)
-    return x
+    if xs == []:        
+        return ys
+    else:
+        return [xs[0]] + mylist_append(xs[1:], ys)
 
 
 
 def mylist_rappend(x,y):
-    for i in range(len(y),0,-1):
-        x.append(y[i-1])
-    return x
+    if xs == []:
+        return ys
+    else:
+        return mylist_rappend(xs[1:], [xs[0]] + ys)
 
 def mylist_reverse(x):
-    y=[]
-    for i in range(len(x),0,-1):
-        y.append(x[i-1])
-    return y
+     return mylist_rappend(xs, [])
+    
