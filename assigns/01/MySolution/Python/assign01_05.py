@@ -12,3 +12,21 @@ print("[import ./../assign01_lib.py] is done!")
 # mylist_reverse (see list_reverse in assign01-lib.sml)
 #
 ####################################################
+
+def mylist_append(x,y):
+    for i in y:
+        x.append(i)
+    return x
+
+
+
+def mylist_rappend(x,y):
+    for i in range(len(y),0,-1):
+        x.append(y[i-1])
+    return x
+
+def mylist_reverse(x):
+    y=[]
+    for i in range(len(x),0,-1):
+        y.append(x[i-1])
+    return y
