@@ -12,26 +12,31 @@ print("[import ./../../assign01_lib.py] is done!")
 ####################################################
 
 
-def list_quicksort(xs):
+def mylist_append(xs, ys):
+
+    if mylist_nilq(xs) == True:
+        return ys
+    else:
+        return mylist_cons(xs.get_cons1(), mylist_append(xs.get_cons2(), ys))
+
+def mylist_quicksort(xs):
     def qsort(xs):
-        if not xs:
-            return []
+        if xs.get_ctag() == 0:
+            return mylist_nil()
         else:
-            x1 = xs[0]
-            ys, zs = qpart(xs[1:], x1)
+            (ys, zs) = qpart(xs.get_cons2(), xs.get_cons1())
             ys = qsort(ys)
             zs = qsort(zs)
-            return ys + [x1] + zs
-
+            return mylist_append(ys, mylist_cons(xs.get_cons1(), zs))
+    
     def qpart(xs, p0):
-        if not xs:
-            return [], []
+        if xs.get_ctag() == 0:
+            return (mylist_nil(), mylist_nil())
         else:
-            x1 = xs[0]
-            ys, zs = qpart(xs[1:], p0)
-            if x1 <= p0:
-                return [x1] + ys, zs
+            (ys, zs) = qpart(xs.get_cons2(), p0)
+            if xs.get_cons1() <= p0:
+                return (mylist_cons(xs.get_cons1(), ys), zs)
             else:
-                return ys, [x1] + zs
+                return (ys, mylist_cons(xs.get_cons1(), zs))
 
     return qsort(xs)
