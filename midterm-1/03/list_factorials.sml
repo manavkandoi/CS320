@@ -17,8 +17,21 @@ FUNCTIONS IN YOUR IMPLEMENTATION. If you do,
 your implementation is disqualified.
 *)
 (*
-fun list_factorials(n: int): int list = ...
+val
+int1_foldleft =
+fn(xs,r0,fopr) =>
+foreach_to_foldleft(int1_foreach)(xs,r0,fopr)
 *)
+
+fun list_factorials(n: int): int list =
+  let
+    val fopr = fn (x: int, r: int list) => (x * hd(r)) :: r
+  in
+    list_foldl(list_fromto(1, n), [1], fopr)
+  end
+
+(* ****** ****** *)
+(* ****** ****** *)
 
 (* ****** ****** *)
 

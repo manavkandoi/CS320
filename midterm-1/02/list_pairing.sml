@@ -5,6 +5,8 @@ use "./../../mysmlib/mysmlib-cls.sml";
 HX-2023-03-01: midterm1-02: 10 points
 *)
 (* ****** ****** *)
+
+
 (*
 Given a list xs, list_pairing(xs) returns
 a list of pairs and an option; the 1st pair
@@ -28,11 +30,23 @@ implementation.
 //
 *)
 (* ****** ****** *)
-(*
-fun
-list_pairing
-(xs: 'a list): ('a * 'a) list * 'a option = ...
-*)
+
+fun list_pairing(xs: 'a list): ('a * 'a) list * 'a option =
+  let
+    fun helper(list2, pos) =
+      case list2 of
+        [] => (list_reverse(pos), NONE)
+      | [x] => (list_reverse(pos), SOME x)
+      | x :: xs' =>
+        let
+          val xlast = hd (list_reverse(xs'))
+          val pos' = (x, xlast) :: pos
+        in
+          helper (tl (list_reverse(xs')), pos')
+        end
+  in
+    helper (xs, [])
+  end
 (* ****** ****** *)
 
 (* end of [CS320-2023-Sum1-midterm1-list_pairing.sml] *)
