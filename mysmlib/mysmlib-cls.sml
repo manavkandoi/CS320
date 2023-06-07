@@ -418,7 +418,7 @@ list_foldl
 
 fun
 list_length
-(xs: 'a list): int =
+(xs: 'a list): int =    
 list_foldl(xs, 0, fn(r, x) => r + 1)
 
 (* ****** ****** *)

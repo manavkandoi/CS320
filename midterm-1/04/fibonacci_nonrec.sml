@@ -17,7 +17,44 @@ your implementation is disqualified.
 *)
 (*
 fun fibonacci_nonrec(x: int): int = ...
+1,2,3,4,5
+5,4,3,2,1
+4,3,2,1,
 *)
+
+(* ****** ****** *)
+
+(* ****** ****** *)
+fun fibonacci_nonrec( x: int): int =
+  let
+    val fibonacci_helper = fn (acc: int * int, x: int) => (#1 acc + #2 acc, #1 acc)
+    val (_, result) = int1_foldleft (list_fromto(0, x-1), 1, fibonacci_helper)
+  in
+    result
+  end
+(* ****** ****** *)
+
+(* ****** ****** *)
+
+
+
+(* ****** ****** *)
+
+(*
+
+
+
+
+(*
+fun fibonacci(x: int): int =
+  let
+    val fibonacci_helper = fn (acc: int * int, x: int) => (#1 acc + #2 acc, #1 acc)
+    val (_, result) = int1_foldleft (list_fromto(0, x-1), 1, fibonacci_helper)
+  in
+    result
+  end
+*)
+
 
 (* ****** ****** *)
 
