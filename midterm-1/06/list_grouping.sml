@@ -34,7 +34,81 @@ fun
 list_grouping(xs: int list): (int * int) list = ...
 *)
 (* ****** ****** *)
-(*
+
+fun
+list_mergesort
+(xs: int list): int list =
+let
+
+fun
+split
+(xs: int list): int list * int list =
+(
+case xs of
+  nil => ([], [])
+| x1 :: xs =>
+(
+  case xs of
+    nil => ([x1], [])
+  | x2 :: xs =>
+    let
+      val
+      (ys, zs) = split(xs)
+    in
+      (x1 :: ys, x2 :: zs)
+    end
+)
+)
+
+fun merge
+( ys: int list
+, zs: int list): int list =
+(
+case ys of
+  nil => zs
+| y1 :: ys =>
+(
+  case zs of
+    nil => y1 :: ys
+  | z1 :: zs =>
+    if y1 <= z1
+    then y1 :: merge(ys, z1 :: zs)
+    else z1 :: merge(y1 :: ys, zs)
+)
+)
+
+in
+
+case xs of
+  nil => []
+| x1 :: xs =>
+(
+  case xs of
+    nil => [x1]
+  | x2 :: xs =>
+    let
+      val (ys, zs) = split(xs)
+    in
+      merge(list_mergesort(x1 :: ys), list_mergesort(x2 :: zs))
+    end
+)
+
+end (* end-of-[list_mergesort]: let *)
+
+fun list_get(xs, n) = 
+    if n = 0 then hd(xs)
+    else list_get(tl(xs), n-1)
+    
+fun
+list_grouping(xs: int list): (int * int) list = 
+    list_foldleft(list_mergesort(xs), [],
+        fn(a, x) => if (a = []) then (1,x) :: a
+        else if not(#2 (list_get(a,0)) = x ) then (1,x) :: a
+        else case a of a1 :: a2 => (#1(a1) +1, #2(a1)  ) :: a2
+    )
+
+
+(*)
 (*
 Some testing code:
 *)
