@@ -72,3 +72,27 @@ magic_triangle(5) =
 (* ****** ****** *)
 
 (* end of [CS320-2023-Sum1-midterm1-magic_triangle.sml] *)
+fun next_row (prev_row: int list): int list =
+    let
+        fun sums xs =
+            case xs of
+                [] => []
+              | [x] => [x]
+              | x::y::ys => (x+y)::sums(y::ys)
+    in
+        [1] @ sums(prev_row )
+    end
+
+
+fun magic_triangle (n: int): int list list =
+    let
+        fun new_row (row: int list, n: int): int list list =
+            if n = 0 then [row]
+            else let
+                val next = next_row(row)
+            in
+                row :: new_row (next, n - 1)
+            end
+    in
+        new_row ([1],(n))
+    end
