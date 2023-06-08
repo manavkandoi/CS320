@@ -30,11 +30,15 @@ of a set is insignificant.
 *)
 (* ****** ****** *)
 
-(*
-val
-list_subsets =
-fn(xs: 'a list) => ...
-*)
+fun list_subsets(xs : 'a list) : 'a list list =
+list_foldr( xs,[[]],fn(x: 'a, res: 'a list list) =>
+    res @ list_map(res, fn(xs) => x :: xs))
+ 
+
+(* ****** ****** *)
+
+
+
 
 (* ****** ****** *)
 

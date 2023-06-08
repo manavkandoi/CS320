@@ -32,4 +32,16 @@ end
 
 (* ****** ****** *)
 
+fun isPrime(n0: int): bool =
+  if n0 < 2 then false 
+  else
+  let
+    val helper = fn(x) => 
+      if (x + 2) * (x +2) > n0 
+      then true 
+      else n0 mod (x+2) <> 0
+  in
+    int1_forall(n0,helper)
+  end
+
 (* end of [CS320-2023-Sum1-assign02-05.sml] *)

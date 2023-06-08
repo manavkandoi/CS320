@@ -21,4 +21,15 @@ fun list_range(start: int, finish: int): int list
 
 (* ****** ****** *)
 
+fun list_range(start: int, finish: int): int list =
+
+    let
+
+      fun helper(xs: int list, x: int): int list =
+        if x >= finish then xs else helper(xs @ [x], x + 1)
+        
+    in
+      helper([], start)
+    end
+
 (* end of [CS320-2023-Spring-assign03-02.sml] *)
