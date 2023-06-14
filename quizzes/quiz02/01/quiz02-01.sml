@@ -54,6 +54,22 @@ val
 quiz02_01 =
 fn(word: string) => ...
 *)
+fun
+quiz02_01 (word: string): char -> int =
+fn(c: char) =>
+let
+
+val number = ref 0
+val _ =
+
+string_foreach
+(word,fn(n) => if (n = c) then number := !number +1 else ())
+
+in
+
+  !number
+  
+end
 
 (* ****** ****** *)
 

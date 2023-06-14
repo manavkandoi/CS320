@@ -35,7 +35,9 @@ val
 quiz02_02 =
 fn(xs: int list, ys: int list) => ...
 *)
-
+fun quiz02_02
+(xs : int list, ys : int list) : bool =
+    not(list_forall(xs,fn(x)=>list_forall(ys,fn(y) =>abs(x -y )>= 10)))
 (* ****** ****** *)
 
 (* end of [CS320-2023-Sum1-quizzes-quiz02-02.sml] *)

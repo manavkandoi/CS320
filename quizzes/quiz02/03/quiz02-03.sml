@@ -30,6 +30,27 @@ val quiz02_03 =
 fn(xs: int list) => ...
 *)
 
+
+fun quiz02_03 xs =
+  let
+    fun isGreater(x, []) = true
+      | isGreater(x, hd :: _) = x > hd
+
+    fun filterGreater([], acc) = rev acc
+      | filterGreater(x :: xs', acc) =
+          if isGreater(x, xs') then
+            filterGreater(xs', x :: acc)
+          else
+            filterGreater(xs', acc)
+  in
+    filterGreater(xs, [])
+  end
+  
+
+
+
+
+
 (* ****** ****** *)
 
 (* end of [CS320-2023-Sum1-quizzes-quiz02-03.sml] *)
