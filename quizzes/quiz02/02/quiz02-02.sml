@@ -30,13 +30,10 @@ then it is DISQUALIFIED.
 *)
 (* ****** ****** *)
 
-(*
+
 val
 quiz02_02 =
-fn(xs: int list, ys: int list) => ...
-*)
-fun quiz02_02
-(xs : int list, ys : int list) : bool =
+fn(xs: int list, ys: int list)  =>
     not(list_forall(xs,fn(x)=>list_forall(ys,fn(y) =>abs(x -y )>= 10)))
 (* ****** ****** *)
 

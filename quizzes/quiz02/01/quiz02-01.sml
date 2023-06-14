@@ -49,13 +49,10 @@ then it is DISQUALIFIED.
 *)
 (* ****** ****** *)
 
-(*
+
 val
 quiz02_01 =
-fn(word: string) => ...
-*)
-fun
-quiz02_01 (word: string): char -> int =
+fn(word: string) => 
 fn(c: char) =>
 let
 
