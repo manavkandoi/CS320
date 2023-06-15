@@ -25,29 +25,23 @@ then it is DISQUALIFIED.
 *)
 (* ****** ****** *)
 
-(*
+
 val quiz02_03 =
-fn(xs: int list) => ...
-*)
+fn(xs: int list) => 
+let 
 
+  fun element_greater(x: int, xs: int list): bool =
+    list_foldr(xs,true,fn(y,acc) => x > y andalso acc)
 
-fun quiz02_03 xs =
-  let
-    fun isGreater(x, []) = true
-      | isGreater(x, hd :: _) = x > hd
+  fun filter(xs: int list, acc: int list): int list =
+    list_foldr(xs, acc, fn(x, acc') =>
+      if element_greater(x, acc') then x::acc' else acc')
 
-    fun filterGreater([], acc) = rev acc
-      | filterGreater(x :: xs', acc) =
-          if isGreater(x, xs') then
-            filterGreater(xs', x :: acc)
-          else
-            filterGreater(xs', acc)
-  in
-    filterGreater(xs, [])
-  end
-  
+in
+  filter(xs, [])
+end;
 
-
+(* ****** ****** *)
 
 
 
