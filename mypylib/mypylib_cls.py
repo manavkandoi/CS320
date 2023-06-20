@@ -239,6 +239,13 @@ def pylist_imaximum(xs):
 
 ###########################################################################
 
+def string_make_pylist(xs):
+    return ''.join(xs)
+def string_make_fnlist(xs):
+    return ''.join(fnlist_pylistize(xs))
+
+###########################################################################
+
 def string_foreach(xs, work_func):
     for x0 in xs:
         work_func(x0)
@@ -253,6 +260,9 @@ def string_foldleft(xs, r0, fopr_func):
 def string_foldright(xs, r0, fopr_func):
     return rforeach_to_foldright(string_rforeach)(xs, r0, fopr_func)
 
+def string_fnlistize(xs):
+    return fnlist_make_pylist\
+        (foreach_to_pylistize(string_foreach)(xs))
 def string_pylistize(xs):
     return foreach_to_pylistize(string_foreach)(xs)
 def string_rpylistize(xs):
@@ -741,7 +751,7 @@ def gpath_bfs(nxs, fnexts):
             return strcon_nil()
         else:
             pth1 = qpths.get()
-            # print("gtree_bfs: helper: nx1 = ", nx1)
+            # print("gpath_bfs: helper: nx1 = ", nx1)
             for nx2 in fnexts(pth1[-1]):
                 if not nx2 in visited:
                     visited.add(nx2)
