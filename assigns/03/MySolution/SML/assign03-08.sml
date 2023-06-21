@@ -17,6 +17,19 @@ list of rows of a matrix, then the returned
 stream consist of lists that are columns of the
 matrix.
 *)
+fun
+stream_ziplst(xs: 'a stream list): 'a list stream =
+let
+fun helper(xs, i0: int) =
+let
+val output = list_map(xs, fn(x) => stream_get_at(x, i0))
+in
+strcon_cons(output, fn() => helper(xs, i0 + 1))
+end
+handle EndofList => strcon_nil
+in
+fn () => helper(xs, 0)
+end
 
 (* ****** ****** *)
 
