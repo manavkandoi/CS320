@@ -65,3 +65,8 @@ def solve_N_queen_puzzle(N):
 
     # Generate all solutions using backtracking
     yield from solve(board, 0)
+
+N = 4
+for board in solve_N_queen_puzzle(N):
+    print(board)
+    print("1")

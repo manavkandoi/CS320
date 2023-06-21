@@ -23,17 +23,27 @@ And so on, and so forth
 val the_ln2_stream: real stream = fn() => ...
 *)
 
-val the_ln2_stream: real stream = 
-let
-    val r0 =ref 1.0
+fun stream_from(n:int): int stream = fn() => strcon_cons(n, stream_from(n+1))
+fun helper(num: real stream, reference: real, denominator: real, sign: real): real stream = fn() =>
+    case num() of
+        strcon_nil => strcon_nil
+        |strcon_cons(x,num)=>
 
-    fun helper(n: int): real=
-        if n=0 orelse n=1 then (r0 := !r0; !r0)
-        else if n mod 2 = 0 then (r0 := !r0-(1.0/Real.fromInt n);!r0)
-        else (r0:= !r0+(1.0/Real.fromInt n);!r0)
-in
-    stream_tabulate(~1,fn(x)=>helper(x+1))
-end
+    let
+        val ref2 =reference+(1.0/(sign*denominator))
+        val denominator2 = denominator + 1.0
+        val sign2 = sign * ~1.0
+
+    in
+        strcon_cons(ref2,helper(num,ref2,denominator2,sign2))
+    end
+
+val num =stream_from(0)
+val xs =stream_make_map(num, fn x => Real.fromInt x)
+val the_ln2_stream: real stream = helper(xs, 0.0, 1.0, 1.0)
+
+
+
 
 
     
