@@ -76,23 +76,25 @@ word_neighbors = fn(word: string) => ...
 *)
 
 val word_neighbors = fn(word: string) =>
+
 let
   val word_len = string_length(word)
-  val result = ref([])
+
+  val res=ref([])
 in
   foreach_to_iforeach(string_foreach)(AB, fn(i,ch) =>
-  int1_foreach(26, fn(j) =>
+  int1_foreach(26,fn(l)=>
   let
     val new_word = string_tabulate(word_len, fn(k) =>
-    if k = i then strsub(AB, j) else strsub(word, k)
+    if k = i then strsub(AB, l) else strsub(word, k)
 )
 
 in
-    if new_word <> word then result := !result @ [new_word] else ()
+    if new_word <> word then res := !res @ [new_word] else ()
 end
   )
   );
-!result
+!res
 end
 (* ****** ****** *)
 (*
