@@ -17,10 +17,13 @@ your solution to this one.
 *)
 val
 strsub = String.sub
+
 val
 string_length = String.size
+
 val
 string_implode = String.implode
+
 val
 string_filter = foreach_to_filter_list(string_foreach)
 val
@@ -72,6 +75,46 @@ val
 word_neighbors = fn(word: string) => ...
 *)
 
+val word_neighbors = fn(word: string) =>
+let
+  val word_len = string_length(word)
+  val result = ref([])
+in
+  foreach_to_iforeach(string_foreach)(AB, fn(i,ch) =>
+  int1_foreach(26, fn(j) =>
+  let
+    val new_word = string_tabulate(word_len, fn(k) =>
+    if k = i then strsub(AB, j) else strsub(word, k)
+)
+
+in
+    if new_word <> word then result := !result @ [new_word] else ()
+end
+  )
+  );
+!result
+end
 (* ****** ****** *)
+(*
+val word_neighbors = fn (word: string) =>
+let
+val len = string_length(word)
+val result = ref([])
+in
+foreach_to_iforeach(string_foreach)(word, fn (i, ch) =>
+int1_foreach(26, fn (j) =>
+let
+val newWord = string_tabulate(len, fn (k) =>
+if i = k then strsub(AB, j) else strsub(word, k)
+)
+in
+if newWord <> word then result := !result @ [newWord] else ()
+end
+)
+)
+!result
+
+end
+*)
 
 (* end of [CS320-2023-Sum1-assign03-02.sml] *)
