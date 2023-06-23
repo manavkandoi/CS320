@@ -7,39 +7,23 @@ use "./test.sml";
 use "./stream_drawdowns.sml";
 *)
 
-local
-
-exception Error
-
-in (* in-of-local *)
+val fxs1 =
+stream_tabulate(~1, fn n => 1.0)
+val fxs2 = stream_evaluate(fxs1, 1.0/2.0)
+val fxs3 = stream_evaluate(fxs1, 1.0/3.0)
 
 (* ****** ****** *)
-(*
-val
-stream_length = fn fxss =>
-foreach_to_length(stream_foreach)(fxss)
-*)
-(* ****** ****** *)
 
-val () =
+val (  ) =
 assert320
-(
-stream_length
-(stream_permute_list[1,2,3,4,5]) = 5*4*3*2*1)
+((abs(stream_get_at(fxs2, 1000000) - 2.0)) < 0.001)
 
 (* ****** ****** *)
 
-val () =
+val (  ) =
 assert320
-(
-length
-(
-stream_get_at
-(stream_permute_list
- (list_tabulate(20, fn _ => 0)), 1000000)) = 20)
+((abs(stream_get_at(fxs3, 1000000) - 1.5)) < 0.001)
 
 (* ****** ****** *)
-val () = print( "Assign08-01-test passed!\n" )
-(* ****** ****** *)
 
-end 
+val (  ) = print("midterm2-01-test: passed!\n")

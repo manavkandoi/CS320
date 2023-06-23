@@ -20,7 +20,7 @@ use
 *)
 
 (* ****** ****** *)
-
+(*
 fun
 stream_drawdowns(fxs) =
 let
@@ -43,6 +43,29 @@ in
     val strcon_cons(x0, fxs) = fxs() in helper(x0, fxs, [])
   end
 end
+*)
+
+fun stream_drawdowns(fxs: int stream): int list stream =
+let
+    fun compute_drawdowns(fxs: int stream, FirstValue: int): int list stream=
+    fn() =>
+    case fxs() of
+    strcon_nil => strcon_nil
+    |strcon_cons(x1, fxs) => 
+        let
+            fun drawdowns(fxs) : int list = 
+                case fxs() of
+                    strcon_nil => []
+                    |strcon_cons(x1, fxs') => 
+                        if x1 <= FirstValue then [x1] @ drawdowns(fxs') else []
+        in
+            
+            strcon_cons(drawdowns(fxs), compute_drawdowns(fxs, stream_head(fxs)))
+        end
+in
+    compute_drawdowns(fxs, stream_head(fxs))
+end
+
   
 (* ****** ****** *)
 

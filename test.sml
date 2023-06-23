@@ -192,3 +192,26 @@ in
 end
 
 *)
+
+fun power(x: real, n: int): real =
+if n = 0 then 1.0
+else
+if n mod 2 = 0 then power(x*x, n div 2)
+else x * power(x*x, n div 2)
+
+
+fun stream_evaluate(fxs: real stream, x0: real): real stream =
+let
+    fun helper(fxs: real stream, acc: real, pow: int) =
+        fn () =>
+        case fxs() of
+        strcon_nil => strcon_nil
+        |strcon_cons(x, fxs') =>
+    let
+        val newacc = acc + x * power(x0, pow)
+    in
+        strcon_cons(newacc, helper(fxs', newacc, pow+1))
+    end
+in
+    helper(fxs, 0.0, 0)
+end
