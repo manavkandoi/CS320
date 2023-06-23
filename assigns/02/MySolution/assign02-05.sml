@@ -37,7 +37,7 @@ fun isPrime(n0: int): bool =
   else
   let
     val helper = fn(x) => 
-      if (x + 2) * (x +2) > n0 
+      if (x + 2) * (x +2 ) > n0 
       then true 
       else n0 mod (x+2) <> 0
   in
