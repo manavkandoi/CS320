@@ -27,7 +27,23 @@ fun
 perm_capture_231
 (xs: int list): bool = ...
 *)
+fun list_get_at(xs, n) = 
+    if n = 0 then hd(xs)
+    else list_get_at(tl(xs), n-1)
 
+exception True
+
+fun perm_capture_231(xs: int list): bool = 
+let
+    val length = list_length(xs)
+in
+    let
+        val _ = foreach_to_iforeach(list_foreach)(xs,fn(i,x) => if (i >= length -2) then () else if (list_get_at(xs,i+2) < x andalso x < list_get_at(xs,i+1) ) then raise True else ()
+        )
+    in
+        false
+    end handle True => true
+end (* end-of-let: [perm_capture_231] *)
 (* ****** ****** *)
 
 (* end of [CS320-2023-Sum1-midterm2-perm_capture_231.sml] *)
