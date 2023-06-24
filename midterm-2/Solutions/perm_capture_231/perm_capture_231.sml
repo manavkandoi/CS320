@@ -1,6 +1,5 @@
 (* ****** ****** *)
-use
-"./../../mysmlib/mysmlib-cls.sml";
+
 (*
 //
 // HX-2023-04-20: 20 points
@@ -18,22 +17,43 @@ For instance, [1,2,3,4] does not capture '231'
 
 (* ****** ****** *)
 
-fun list_get_at(xs, n) = 
-    if n = 0 then hd(xs)
-    else list_get_at(tl(xs), n-1)
-
-exception True
-
-fun perm_capture_231(xs: int list): bool = 
+fun
+perm_capture_231
+(xs: int list): bool =
 let
-    val length = list_length(xs)
+
+fun
+helper1(xs) =
+(
+case xs of
+nil => false
+|
+x1 :: xs =>
+helper2(x1, xs) orelse helper1(xs))
+
+and
+helper2(x1, xs) =
+(
+case xs of
+nil => false
+|
+x2 :: xs =>
+(
+(x1 < x2)
+andalso
+helper23(x1, x2, xs)) orelse helper2(x1, xs))
+
+and
+helper23(x1, x2, xs) =
+(
+case xs of
+nil => false
+|
+x3 :: xs =>
+(x1 > x3) orelse helper23(x1, x2, xs))
+
 in
-    let
-        val _ = foreach_to_iforeach(list_foreach)(xs,fn(i,x) => if (i >= length -2) then () else if (list_get_at(xs,i+2) < x andalso x < list_get_at(xs,i+1) ) then raise True else ()
-        )
-    in
-        false
-    end handle True => true
+  helper1(xs)
 end (* end-of-let: [perm_capture_231] *)
 
 (* ****** ****** *)

@@ -1,7 +1,7 @@
 (* ****** ****** *)
 
 use
-"./../../mysmlib/mysmlib-cls.sml";
+"./../../../mysmlib/mysmlib-cls.sml";
 
 (* ****** ****** *)
 
@@ -45,4 +45,4 @@ end
 
 (* ****** ****** *)
 
-(* end of [CS320-2023-Spring-midterm2-stream_evaluate.sml] *)
+(* end of [CS320-2023-Sum1-midterm2-stream_evaluate.sml] *)
