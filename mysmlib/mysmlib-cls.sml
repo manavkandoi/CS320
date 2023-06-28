@@ -1152,7 +1152,7 @@ helper
 case fxs() of
 strcon_nil => strcon_nil
 |
-strcon_cons(x1, fxs) =>
+strcon_cons(x1, fxs) => 
 if
 not(itest(i0, x1))
 then helper(fxs, i0+1)()

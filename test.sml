@@ -74,7 +74,7 @@ let
 in
     helper(fxs, 0.0, 0)
 end
-
+*)
 
 
 fun stream_zipstrm(fxss: 'a stream stream): 'a stream stream =
@@ -90,7 +90,7 @@ in
 fn() => helper(fxss, 0)
 end
 
-*)
+
 
 fun stream_drawdowns(fxs: int stream): int list stream =
 let
@@ -215,3 +215,185 @@ let
 in
     helper(fxs, 0.0, 0)
 end
+
+
+datatype 'a bintr =
+LEAF of 'a | NODE of 'a bintr * 'a bintr
+(* ****** ****** *)
+
+(*
+HX-2023-03-01: 20 points
+The following function is essentially
+the same as mapt given on slide 16 in
+SLIDE/Summary-SMLNJ.pdf
+*)
+val
+bintr_fold =
+fn
+( t0: 'a bintr
+, fleaf: 'a -> 'r
+, fnode: 'r * 'r -> 'r) =>
+let
+(* ****** ****** *)
+val
+rec
+fold =
+fn(t0) =>
+case t0 of
+LEAF(x0) => fleaf(x0)
+|
+NODE(tl, tr) =>
+fnode(fold(tl), fold(tr))
+(* ****** ****** *)
+in
+  fold(t0)
+end (* end of [bintr_fold(t0, fleaf, fnode)] *)
+
+(* ****** ****** *)
+
+val
+int_max =
+fn(x, y) => if x >= y then x else y
+
+(* ****** ****** *)
+
+(*
+Here are some examples that are based
+on the bintr_fold combinator
+*)
+
+val
+bintr_size =
+fn(t0) =>
+bintr_fold
+( t0
+, fn _ => 1
+, fn(tl, tr) => tl + tr)
+
+val
+bintr_height =
+fn(t0) =>
+bintr_fold
+( t0
+, fn _ => 1
+, fn(tl, tr) => 1+int_max(tl,tr))
+
+(* ****** ****** *)
+
+(*
+//
+HX-2023-03-01:
+//
+The following recursive function
+[bintr_balanced_rec] checks whether
+a given bintr is perfectly balanced.
+//
+LEAF(x) is perfectly balanced.
+NODE(tl, tr) is perfectly balanced if
+(1) tl is perfectly balanced, and
+(2) tr is perfectly balanced, and
+(3) tl and tr are of the same size (or height)
+*)
+
+(* ****** ****** *)
+(*
+//
+Here is a recursive implementation that
+checks if a given bintr is perfectly balanced
+//
+fun
+bintr_balanced_rec
+(t0: 'a bintr): bool =
+(
+case t0 of
+LEAF _ => true
+|
+NODE(tl, tr) =>
+bintr_balanced_rec(tl)
+andalso bintr_balanced_rec(tr)
+andalso bintr_size(tl) = bintr_size(tr)
+)
+*)
+(* ****** ****** *)
+
+(*
+val
+bintr_balanced_nonrec = fn(t0: 'a bintr) => ...
+*)
+
+(*
+bintr_fold(t3, fn(leaf) => true, fn(tl,tr) => 
+  if(bintr_size(tl) = bintr_size(tr) )
+  then true
+  else false)
+*)
+val
+bintr_balanced_nonrec = fn(t0: 'a bintr) => 
+  case t0 of NODE(tl, tr) =>
+  bintr_fold(t0, fn(leaf) => true, fn(t1 , t2) => 
+   if (bintr_size(tl) = bintr_size(tr) andalso bintr_height(tl) = bintr_height(tr)) then true
+   else false
+   )
+
+val t0 = LEAF(0); val t1 = NODE(t0, t0); val t2 = NODE(t1, t1); val t3 = NODE(t2, t2);
+(* ans1 = true *)
+val ans1 = bintr_balanced_nonrec(t3)
+(* ans2 = false *)
+val ans2 = bintr_balanced_nonrec(NODE(t2, t3))
+
+datatype 'a mytree =
+  mytree_node of 'a * ('a mytree list)
+
+(* ****** ****** *)
+val
+int1_map_list =
+fn(xs,fopr) =>
+foreach_to_map_list(int1_foreach)(xs,fopr)
+(*
+fun mytree_dfs_streamize(t0: 'a mytree): 'a stream =
+    let
+        fun traverse(mytree_node(x, child)) =
+            let
+                fun traverse_child(child) =
+                    case child of
+                        [] => stream_nil()
+                      | t::ts => stream_append(mytree_dfs_streamize(t), traverse_child(ts))
+            in
+                stream_cons(x, fn () => traverse_child(child)())
+            end
+    in
+        traverse(t0)
+    end
+    *)
+fun mytree_dfs_streamize(t: 'a mytree): 'a stream =
+let
+fun helper(tree: 'a mytree): 'a stream =
+case tree of
+mytree_node(value, []) => stream_cons(value, stream_nil())
+| mytree_node(value, subtrees) =>
+let
+fun helper_list(trees: 'a mytree list): 'a stream =
+case trees of
+[] => stream_nil()
+| (t::ts) => stream_append(helper(t), helper_list(ts))
+in
+stream_cons(value, helper_list(subtrees))
+end
+in
+helper(t)
+end
+
+
+    val Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+    val alphabeta_cycling_list: char stream = fn() =>
+    let
+    fun helper(n) = 
+    if (n < 25)
+        then strcon_cons(String.sub(Alphabet, n), fn() => helper(n+1) )
+    else
+        strcon_cons(String.sub(Alphabet, n), fn() => helper(0) )
+    in
+    helper(0)
+    end
+    
