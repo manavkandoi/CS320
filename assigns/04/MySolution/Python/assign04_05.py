@@ -14,68 +14,85 @@ ANY ONE OF THE HINTS GIVEN.
 import sys
 sys.path.append('./../../../../mypylib')
 from mypylib_cls import *
+    
+import nltk
+nltk.download('words')
+from nltk.corpus import words 
 
-def str_repl(str, i, repl):
-    return str[:i] + repl + str[i + 1:]
-
+########################################################################
 def wordle_guess(hints):
 
-
-    dict_count = dict()
-    to_ignore = set()
-    my_guess = "$" * len(hints[0])
-
-    for hintx in hints:
+    words_set = [y for y in set(words.words()) if len(y) == len(hints[0]) ]
+    def word_legal(word):
+        return word in words_set
+    
+    not_these = ""
+    guess_after = ""
+    
+    to_try = []
+    
+    tried_words = ["".join([x[1] for x in y]) for y in hints]
+    
+    #check word
+    for ltr in range(len(hints[0])):
         
-        word = pylist_make_map(pylist_make_filter(hintx,lambda x:x[0] !=0), lambda x:x[1])
-        in_word_count = {x:word.count(x) for x in word}
-        
+        already_found = False
+        for tupl in hints:
 
-        for k in in_word_count:
-            if k not in dict_count or in_word_count[k] > dict_count[k]:
-                dict_count[k] = in_word_count[k]
-
-        for i,c in enumerate(hintx):
-            if c[0] == 1:
-                my_guess = str_repl(my_guess,i,c[1])
-            else:
-                to_ignore.add((i,c[1]))
-
-    counts_list = []
-
-    for k in dict_count:
-        counts_list+=([k] * dict_count[k])
-
-    def safe_word(wrd):
-
-        def pos_safe(s):
-            return foreach_to_iforall(string_foreach)(s, lambda i,c: (not (i,c) in to_ignore))
-
-        def safe_count(d, s):
-            res = True
-            wd_list = list(s)
-            in_word_count = {x:wd_list.count(x) for x in wd_list}
+            if tupl[ltr][0] == 1 and already_found ==False:
+                already_found = True
+                guess_after += tupl[ltr][1]
             
-            for k in d:
-                if not ((k in in_word_count) and in_word_count[k] >= d[k]):
-                    res =  False
-            return res
-
-        return pos_safe(wrd) and safe_count(dict_count,wrd) and (not '$' in wrd)
-
-
-    def next_in_s(nxt1):
-        children_of = []
-        try:
-            i = nxt1.index('$')
-            return string_imap_pylist(counts_list, lambda _, c: str_repl(nxt1, i , c))
-        except ValueError:
-            return []
-
-    if '$' in my_guess:
-        return stream_get_at(stream_make_filter(graph_dfs([my_guess], next_in_s), lambda s: safe_word(s)), 0)
-    else:
-        return my_guess
+            if tupl[ltr][0] == 0 and not(tupl[ltr][1] in not_these) and not((2,tupl[ltr][1]) in tupl) and not((1,tupl[ltr][1]) in tupl) :
+                not_these +=tupl[ltr][1]
+            
+            if tupl[ltr][0] == 2 and not(tupl[ltr][1] in to_try):
+                to_try += [(ltr,tupl[ltr][1])]
+        
+        if (already_found == False):
+            guess_after +="_"
+            
+    #display all the non-combinations
+    if ("_" not in guess_after):
+        return guess_after
     
+    for tupl in to_try:
+        not_these = not_these.replace(tupl[1], "")
+
+    for word in words_set:
+        not_word = False
+
+        for ch in word:
+
+            if (ch in not_these):
+                not_word = True
+                break
+
+        if (not_word == True):
+            continue
+
+        if (word in tried_words):
+            continue
+
+        for i in range(len(hints[0])):
+            if (guess_after[i] == "_"):
+                "skip"
+
+            elif not(guess_after[i] == word[i]):
+                not_word = True
+                break
+
+        if (not_word == False):
+            for tupl in to_try:
+                if (word.find(tupl[1]) == tupl[0]) or not(tupl[1] in word) :
+                    not_word = True
+                    break
+
+        if (not_word == True):
+            continue
+
+        else:
+            return word
     
+    return None    
 ########################################################################
