@@ -27,5 +27,34 @@ wordle_hint(w1, w2) =
 (2, b), (1, b), (2, c), (1, c), (0, d)
 """
 ########################################################################
+def wordle_hint(word1, chr):
+    
+    wrd =[]
+    word_in = []
+    number = []
 
+
+    for tupl in zip(word1,chr):
+        wrd_1, ch = tupl
+
+        if not(ch in word_in):
+            word_in.append(ch)
+
+            number.append(word1.count(ch))
+
+        ind = word_in.index(ch)
+
+        if (wrd_1 == ch):
+            wrd.append((1, ch))
+            number[ind] -= 1
+
+        else:
+
+            if ( number[ind] == 0):
+                wrd.append((0,ch))
+
+            else:
+                
+                wrd.append((2, ch))
+    return wrd
 ########################################################################
