@@ -91,7 +91,7 @@ def solve_N_queen_puzzle(N):
     q1.put((0,) * N)
     return stream_make_filter(gtree_dfs(q1,children,N), lambda bd: nqueen(bd) == N)
 
- 
+    
 
 
 """
